@@ -1,0 +1,20 @@
+# Sequence/scanner parameters
+# GM T1 should be the Look-locker corrected value of 1.3s
+--t1=0.79
+# WM T1 should be the Look-locker corrected value of 1.1s
+#--t1wm=0.71
+# T1 blood shoudl be the Look-locker corrected value of 1.6s
+--t1b=0.89
+--tau=0.64
+
+# Data information
+--repeats=1
+#--ti1=0.04 --ti2=0.34 --ti3=0.64 --ti4=0.94 --ti5=1.24 --ti6=1.54 --ti7=1.84 --ti8=2.14 --ti9=2.44 --ti10=2.74 --ti11=3.04 --ti12=3.34 --ti13=3.64
+
+#--ti1=0.04 --ti2=0.24 --ti3=0.44 --ti4=0.64 --ti5=0.84 --ti6=1.04 --ti7=1.24 --ti8=1.44 --ti9=1.64 --ti10=1.84 --ti11=2.04 --ti12=2.24 --ti13=2.44 --ti14=2.64 --ti15=2.84 --ti16=3.04 --ti17=3.24 --ti18=3.44 --ti19=3.64
+
+--ti1=0.04 --ti2=0.14 --ti3=0.24 --ti4=0.34 --ti5=0.44 --ti6=0.54 --ti7=0.64 --ti8=0.74 --ti9=0.84 --ti10=0.94 --ti11=1.04 --ti12=1.14 --ti13=1.24 --ti14=1.34 --ti15=1.44 --ti16=1.54 --ti17=1.64 --ti18=1.74 --ti19=1.84 --ti20=1.94 --ti21=2.04 --ti22=2.14 --ti23=2.24 --ti24=2.34 --ti25=2.44 --ti26=2.54 --ti27=2.64 --ti28=2.74 --ti29=2.84 --ti30=2.94 --ti31=3.04 --ti32=3.14 --ti33=3.24 --ti34=3.34 --ti35=3.44 --ti36=3.54 --ti37=3.64
+
+# save model fit and free energy
+--save-model-fit
+--print-free-energy

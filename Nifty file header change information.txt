@@ -1,0 +1,21 @@
+Nifty file header to be modified
+
+dimension_array = filehandle.hdr.dime.dim;
+
+dimension_array[0] => total number of dimensions (usually 4)
+dimension_array[1] => x (usually 64)
+dimension_array[2] => y (usually 64)
+dimension_array[3] => z (depending on total number of slices in MR experiemnt, in QUASAR paper it's 4)
+dimension_array[4] => time point sampled (ceiling((t(end) - t(start)) / delta_ti))
+demension_array[5~7] => not very useful (usually set to be 1)
+
+pixdim_array = filehandle.hdr.dime.pixdim;
+pixdim_array[0] => must be 1 or -1 (if not then treated as 1)
+pixdim_array[1~4] => deminsion of xyzt voxel (unit specified in char xyzt_units)
+
+xyzt_unit_char = fliehandle.hdr.dime.xyzt_unit; (saves unit if pixdim_array)
+
+cal_max_float = filehandle.hdr.dime.cal_max (the maximum display intendisy when image is opened by display card)
+
+glmax_float = filehandle.hdr.dime.glmax (not used in Nifty. Only used in Analyze format)
+glmin_float not used
