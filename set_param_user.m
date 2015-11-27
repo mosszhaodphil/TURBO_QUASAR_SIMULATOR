@@ -38,10 +38,10 @@ function [] = set_param_user(varargin)
 	
 	param_user_str.dispersion_type       = 1; % no dispersion
 	
-	param_user_str.mask                  = 'mask'; % file name of Mask file
-	param_user_str.pvgm                  = 'mask_bin'; % 'mask_bin'; % file name of PV GM map
-	param_user_str.pvwm                  = 'mask_bin'; % 'mask_bin'; % file name of PV WM map
-	param_user_str.abv_mask              = 'abv_mask'; % 'mask_abv'; file name of ABV mask (currently all zeros)
+	param_user_str.mask                  = 'ref_images/mask_mean'; % file name of Mask file
+	param_user_str.pvgm                  = 'ref_images/pvgm_one'; % 'mask_bin'; % file name of PV GM map
+	param_user_str.pvwm                  = 'ref_images/pvwm_zero'; % 'mask_bin'; % file name of PV WM map
+	param_user_str.abv_mask              = 'ref_images/pvwm_zero'; % 'mask_abv'; file name of ABV mask (currently all zeros)
 
 	if(length(varargin) == 1)
 		current_handles                      = varargin{1};
