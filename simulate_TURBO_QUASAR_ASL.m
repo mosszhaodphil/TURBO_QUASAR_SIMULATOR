@@ -21,34 +21,36 @@ date_time_now    = clock; % get vector of current time
 date_time        = datestr(date_time_now, date_time_format); % convert current time vector to string
 dir_name         = strcat('output_', date_time); % Default directory name
 
-file_name_tissue_gm                = 'tissue_gm'; % file name to save Tissue ASL signal
-file_name_tissue_wm                = 'tissue_wm'; % file name to save Tissue ASL signal
-file_name_tissue_pv                = 'tissue_pv';
-file_name_tissue_pv_noise          = 'tissue_pv_noise';
-file_name_blood                    = 'arterial_blood'; % file name to save Blood ASL signal
-file_name_blood_noise              = 'arterial_blood_noise';
-file_name_aif_gm                   = 'aif_gm';
-file_name_aif_wm                   = 'aif_wm';
-file_name_aif_pv                   = 'aif_pv';
-file_name_aif_pv_noise             = 'aif_pv_noise';
-file_name_residue_gm               = 'residue_gm';
-file_name_residue_wm               = 'residue_wm';
-file_name_residue_pv               = 'residue_pv';
-file_name_residue_pv_noise         = 'residue_pv_noise';
-file_name_relaxation_gm            = 'relaxation_gm';
-file_name_relaxation_wm            = 'relaxation_wm';
-file_name_relaxation_pv            = 'relaxation_pv';
-file_name_relaxation_pv_noise      = 'relaxation_pv_noise';
+file_name_tissue_gm                   = 'tissue_gm'; % file name to save Tissue ASL signal
+file_name_tissue_gm_noise             = 'tissue_gm_noise';
+file_name_tissue_wm                   = 'tissue_wm'; % file name to save Tissue ASL signal
+file_name_tissue_wm_noise             = 'tissue_wm_noise';
+file_name_tissue_pv                   = 'tissue_pv';
+file_name_tissue_pv_noise             = 'tissue_pv_noise';
+file_name_blood                       = 'arterial_blood'; % file name to save Blood ASL signal
+file_name_blood_noise                 = 'arterial_blood_noise';
+file_name_aif_gm                      = 'aif_gm';
+file_name_aif_wm                      = 'aif_wm';
+file_name_aif_pv                      = 'aif_pv';
+file_name_aif_pv_noise                = 'aif_pv_noise';
+file_name_residue_gm                  = 'residue_gm';
+file_name_residue_wm                  = 'residue_wm';
+file_name_residue_pv                  = 'residue_pv';
+file_name_residue_pv_noise            = 'residue_pv_noise';
+file_name_relaxation_gm               = 'relaxation_gm';
+file_name_relaxation_wm               = 'relaxation_wm';
+file_name_relaxation_pv               = 'relaxation_pv';
+file_name_relaxation_pv_noise         = 'relaxation_pv_noise';
 file_name_relaxation_product_gm       = 'relaxation_product_gm';
 file_name_relaxation_product_wm       = 'relaxation_product_wm';
 file_name_relaxation_product_pv       = 'relaxation_product_pv';
 file_name_relaxation_product_pv_noise = 'relaxation_product_pv_noise';
-file_name_tc_gm                    = 'tc_gm'; % file name to save raw ASl (Tag minus control tc) signal
-file_name_tc_wm                    = 'tc_wm'; % file name to save raw ASl (Tag minus control tc) signal
-file_name_tc_pv                    = 'tc_pv'; % file name to save raw ASl (Tag minus control tc) signal
-file_name_tc_pv_noise              = 'tc_pv_noise'; % file name to save raw ASl (Tag minus control tc) signal with noise
-file_type_txt                      = '.txt'; % text file extension
-file_type_nifty                    = '.nii.gz'; % nifty file extension
+file_name_tc_gm                       = 'tc_gm'; % file name to save raw ASl (Tag minus control tc) signal
+file_name_tc_wm                       = 'tc_wm'; % file name to save raw ASl (Tag minus control tc) signal
+file_name_tc_pv                       = 'tc_pv'; % file name to save raw ASl (Tag minus control tc) signal
+file_name_tc_pv_noise                 = 'tc_pv_noise'; % file name to save raw ASl (Tag minus control tc) signal with noise
+file_type_txt                         = '.txt'; % text file extension
+file_type_nifty                       = '.nii.gz'; % nifty file extension
 
 % Mask and partial volume files
 mask = param_user_str.mask;
@@ -196,6 +198,12 @@ aif_pv_noise_nifty_file_handle = make_nifty_file(apply_mask(aif_pv_asl_noise_mat
 tc_pv_asl_noise_matrix        = add_white_noise(tc_pv_asl_matrix, snr, sd);
 tc_pv_noise_nifty_file_handle = make_nifty_file(apply_mask(tc_pv_asl_noise_matrix, mask));
 
+tissue_gm_asl_noise_matrix        = add_white_noise(tissue_gm_asl_matrix, snr, sd);
+tissue_gm_noise_nifty_file_handle = make_nifty_file(apply_mask(tissue_gm_asl_noise_matrix, mask));
+
+tissue_wm_asl_noise_matrix        = add_white_noise(tissue_wm_asl_matrix, snr, sd);
+tissue_wm_noise_nifty_file_handle = make_nifty_file(apply_mask(tissue_wm_asl_noise_matrix, mask));
+
 tissue_pv_asl_noise_matrix        = add_white_noise(tissue_pv_asl_matrix, snr, sd);
 tissue_pv_noise_nifty_file_handle = make_nifty_file(apply_mask(tissue_pv_asl_noise_matrix, mask));
 
@@ -240,6 +248,7 @@ dlmwrite(strcat(file_name_residue_gm, file_type_txt), residue_gm_asl_signal);
 dlmwrite(strcat(file_name_relaxation_gm, file_type_txt), relaxation_gm_asl_signal);
 dlmwrite(strcat(file_name_relaxation_product_gm, file_type_txt), relaxation_product_gm_asl_signal);
 save_nii(tissue_gm_nifty_file_handle, strcat(file_name_tissue_gm, file_type_nifty)); % save GM tissue ASL nifty file
+save_nii(tissue_gm_noise_nifty_file_handle, strcat(file_name_tissue_gm_noise, file_type_nifty)); % save GM tissue noise ASL nifty file
 save_nii(aif_gm_nifty_file_handle, strcat(file_name_aif_gm, file_type_nifty)); % save GM AIF ASL nifty file
 save_nii(residue_gm_nifty_file_handle, strcat(file_name_residue_gm, file_type_nifty));
 save_nii(relaxation_gm_nifty_file_handle, strcat(file_name_relaxation_gm, file_type_nifty));
@@ -256,6 +265,7 @@ dlmwrite(strcat(file_name_residue_wm, file_type_txt), residue_wm_asl_signal);
 dlmwrite(strcat(file_name_relaxation_wm, file_type_txt), relaxation_wm_asl_signal);
 dlmwrite(strcat(file_name_relaxation_product_wm, file_type_txt), relaxation_product_wm_asl_signal);
 save_nii(tissue_wm_nifty_file_handle, strcat(file_name_tissue_wm, file_type_nifty)); % save WM tissue ASL nifty file
+save_nii(tissue_wm_noise_nifty_file_handle, strcat(file_name_tissue_wm_noise, file_type_nifty)); % save GM tissue noise ASL nifty file
 save_nii(aif_wm_nifty_file_handle, strcat(file_name_aif_wm, file_type_nifty)); % save WM AIF ASL nifty file
 save_nii(residue_wm_nifty_file_handle, strcat(file_name_residue_wm, file_type_nifty));
 save_nii(relaxation_wm_nifty_file_handle, strcat(file_name_relaxation_wm, file_type_nifty));
