@@ -41,7 +41,7 @@ function [] = set_param_user(varargin)
 	param_user_str.mask                  = 'ref_images/mask_mean'; % file name of Mask file
 	param_user_str.pvgm                  = 'ref_images/pvgm_one'; % 'mask_bin'; % file name of PV GM map
 	param_user_str.pvwm                  = 'ref_images/pvwm_zero'; % 'mask_bin'; % file name of PV WM map
-	param_user_str.abv_mask              = 'ref_images/pvwm_zero'; % 'mask_abv'; file name of ABV mask (currently all zeros)
+	param_user_str.abv_mask              = 'ref_images/mask_abv'; % 'mask_abv'; file name of ABV mask (currently all zeros)
 
 	if(length(varargin) == 1)
 		current_handles                      = varargin{1};
