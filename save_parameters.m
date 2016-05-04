@@ -77,4 +77,12 @@ function [] = save_parameters()
 
 	fclose(file_handle);
 
+
+	% TI files
+	file_handle_ti = fopen('TIs.txt', 'wt');
+
+	fprintf(file_handle_ti, '%.2f \n', param_user_str.t);
+
+	fclose(file_handle_ti);
+
 end

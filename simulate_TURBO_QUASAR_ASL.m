@@ -305,6 +305,8 @@ copyfile(strcat('../', abv_mask, file_type_nifty), '.');
 
 % Move parameter file to result directory
 movefile('../parameters.txt', '.');
+% Move TI file to result directory
+movefile('../TIs.txt', '.');
 
 % go back to working directory
 cd('../');

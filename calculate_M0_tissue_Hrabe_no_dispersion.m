@@ -27,8 +27,9 @@ function tissue_m = calculate_M0_tissue_Hrabe_no_dispersion(t, bolus_time_passed
 
 		% Correct T1 in Look-locker readout
 		t1_a_eff = correct_t1a_look_locker(t(j) - bolus_time_passed);
-		%t1_a_eff = param_user_str.t1_a;
+		t1_a_eff = param_user_str.t1_a;
 		t1_t_eff = correct_t1t_look_locker(t(j) - bolus_time_passed);
+		t1_t_eff = param_user_str.t1_t;
 
 		% Calculate R and F
 		R = 1 / t1_t_eff - 1 / t1_a_eff;
