@@ -20,13 +20,22 @@ function delta_M_blood = calculate_delta_M_blood(t)
 	input_function = zeros(length(t), 1); % c(t) of (MACQ)
 	aif_dispersion = zeros(length(t), 1); % a(t) of (MACQ)
 
-	% calculate c(t)
-	input_function = calculate_delivery_vessel_Buxton(t);
+	bolus_arrived = 0;
 
-	%input_function = calculate_arterial_signal_smooth(t);
+	% Check dispersion
 
-	for j = 1 : length(t)
-		delta_M_blood(j) = 2 * param_user_str.inversion_efficiency * param_user_str.m_0a * param_user_str.arterial_blood_volume * input_function(j); % calculate ASL signal
+	% No dispersion
+	if(param_user_str.dispersion_type == 1)
+
+		while(bolus_arrived < param_mr_str.n_bolus)
+
+			%bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
+			bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+
+			delta_M_blood = delta_M_blood + calculate_delivery_vessel_Buxton_no_dispersion(t, bolus_time_passed); % calculate ASL signal
+
+			bolus_arrived = bolus_arrived + 1;
+		end
 	end
 
 end

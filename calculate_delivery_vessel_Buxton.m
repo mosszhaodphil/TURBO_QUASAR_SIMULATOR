@@ -18,7 +18,7 @@ function delivery_vessel_Buxton = calculate_delivery_vessel_Buxton(t)
 
 	while(bolus_arrived < param_mr_str.n_bolus)
 
-		bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
+		%bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
 		bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
 
 		% calculate Buxton's delivery c(t)

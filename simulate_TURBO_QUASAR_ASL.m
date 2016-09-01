@@ -77,7 +77,7 @@ param_user_str.t1_t  = param_user_str.t1_t_gm;
 save('param_user.mat', 'param_user_str');
 
 
-% Simulate GM Tisue ASL signal and save it to file
+% Simulate GM Tissue ASL signal and save it to file
 tissue_gm_asl_signal        = zeros(length(param_user_str.t), 1); % construct a vector to store Tissue ASL signals at different sampling points specified by variable t
 tissue_gm_asl_signal        = calculate_delta_M_tissue(param_user_str.t); % calculate Tissue ASL signal
 tissue_gm_asl_matrix        = make_4D_matrix(tissue_gm_asl_signal, mask); % make 4D matrix to save Tissue ASL signal
