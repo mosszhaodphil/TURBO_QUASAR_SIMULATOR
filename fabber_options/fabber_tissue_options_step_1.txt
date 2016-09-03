@@ -18,6 +18,9 @@
 --save-residuals
 --repeats=1
 
+# Indicate this is simulation
+--simulation_mode
+
 
 # Convergence method (default method: maximum iterations maxits, default 10 iterations)
 #--convergence=maxits

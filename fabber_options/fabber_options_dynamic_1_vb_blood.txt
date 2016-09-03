@@ -18,6 +18,9 @@
 --save-residuals
 --repeats=1
 
+# Indicate this is simulation
+--simulation_mode
+
 --n_bolus=7
 #--delta_bolus=0.6
 --bolus_skip=1

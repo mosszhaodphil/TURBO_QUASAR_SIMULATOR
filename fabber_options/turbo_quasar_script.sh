@@ -31,6 +31,9 @@ fabber --data=asl_tissue --data-order=singlefile --output=full_vb_tissue_all -@ 
 fslmaths full_vb_tissue_all/mean_ftiss -mul 6000 -div 0.91 full_vb_tissue_all/CBF
 
 
+# Fit all six component together
+
+
 d_TI=0.6
 # Rescale bolus duration due to tanh(x) function
 #(d_ti * 0.5) * (tanh(tauset) + 1);
@@ -46,3 +49,6 @@ fslmaths full_vb_tissue_all/mean_tautiss -mul 2 -exp -sub 1 full_vb_tissue_all/n
 fslmaths full_vb_tissue_all/mean_tautiss -mul 2 -exp -add 1 full_vb_tissue_all/denominator
 fslmaths full_vb_tissue_all/numerator -div full_vb_tissue_all/denominator full_vb_tissue_all/tanh
 fslmaths full_vb_tissue_all/tanh -add 1 -mul $d_TI -mul 0.5 full_vb_tissue_all/mean_tautiss_true
+
+
+
