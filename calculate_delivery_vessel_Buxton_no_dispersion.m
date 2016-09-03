@@ -14,6 +14,8 @@ function delivery_vessel_Buxton = calculate_delivery_vessel_Buxton_no_dispersion
 	%aif_dispersion_vessel  = zeros(length(t), 1);
 	%delivery_Buxton        = zeros(length(t), 1);
 
+	current_value = 0;
+
 
 	current_arrival_time = bolus_time_passed + param_user_str.tau_m;
 
@@ -21,9 +23,10 @@ function delivery_vessel_Buxton = calculate_delivery_vessel_Buxton_no_dispersion
 
 		% corrent Look-locker readout T1
 		t1_a_eff = correct_t1a_look_locker(t(j) - bolus_time_passed);
-		t1_a_eff = param_user_str.t1_a;
+		t1_a_eff = param_user_str.t1_a; % This is for simulation only
 
 		if(t(j) < current_arrival_time)
+			%delivery_vessel_Buxton(j) = 2 * exp((-1) * param_user_str.tau_m / t1_a_eff) * (0.98 * exp((t(j) - bolus_time_passed - param_user_str.tau_m) / 0.05) + 0.02 * (t(j) - bolus_time_passed) / param_user_str.tau_m);
 			delivery_vessel_Buxton(j) = 0;
 		end
 
@@ -32,6 +35,18 @@ function delivery_vessel_Buxton = calculate_delivery_vessel_Buxton_no_dispersion
 		end
 
 		if(t(j) >= current_arrival_time + param_mr_str.tau_b)
+			
+			%{
+			current_value = 2 * exp((-1) * (param_user_str.tau_m + param_mr_str.tau_b) / t1_a_eff);
+			current_value = current_value * (0.98 * exp( (-1) * (t(j) - bolus_time_passed - param_user_str.tau_m - param_mr_str.tau_b) / 0.05) + 0.02 * (1 - (t(j) - bolus_time_passed - param_user_str.tau_m - param_mr_str.tau_b) / 5));
+
+			if(current_value >= 0)
+				delivery_vessel_Buxton(j) = current_value;
+			else
+				delivery_vessel_Buxton(j) = 0;
+			end
+			%}
+
 			delivery_vessel_Buxton(j) = 0;
 		end
 
