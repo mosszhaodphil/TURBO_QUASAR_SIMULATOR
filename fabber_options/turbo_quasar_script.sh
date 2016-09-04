@@ -26,12 +26,28 @@ fslmaths full_vb_tissue_step2/mean_ftiss -mul 6000 -div 0.91 full_vb_tissue_step
 
 
 # Estimate in one go
-fabber --data=asl_tissue --data-order=singlefile --output=full_vb_tissue_all -@ fabber_tissue_options_all.txt
+#fabber --data=asl_tissue --data-order=singlefile --output=full_vb_tissue_all -@ fabber_tissue_options_all.txt
 # Calibration
-fslmaths full_vb_tissue_all/mean_ftiss -mul 6000 -div 0.91 full_vb_tissue_all/CBF
+#fslmaths full_vb_tissue_all/mean_ftiss -mul 6000 -div 0.91 full_vb_tissue_all/CBF
 
 
-# Fit all six component together
+# Fit all six component together in two steps
+# Step 1 - only infer CBF and arrival time
+fabber --data=tc_gm --data-order=singlefile --output=full_vb_blood_and_tissue_step1 -@ fabber_blood_and_tissue_options_all_step_1.txt
+# Update MVN to infer tau
+mvntool --input=full_vb_blood_and_tissue_step1/finalMVN --output=full_vb_blood_and_tissue_step1/finalMVN2 --mask=mask_brain --param=3 --new --val=1 --var=1
+# Step 2 - only infer CBF, arrival time, and bolus duration
+fabber --data=tc_gm --data-order=singlefile --output=full_vb_blood_and_tissue_step2 -@ fabber_blood_and_tissue_options_all_step_2.txt --continue-from-mvn=full_vb_blood_and_tissue_step1/finalMVN2
+# Calibration
+fslmaths full_vb_blood_and_tissue_step2/mean_ftiss -mul 6000 -div 0.91 full_vb_blood_and_tissue_step2/CBF
+
+# Fit six component together in one go
+fabber --data=tc_gm --data-order=singlefile --output=fabber_blood_and_tissue_options_all_100 -@ fabber_blood_and_tissue_options_all_100.txt
+# Calibration
+fslmaths full_vb_blood_and_tissue_100/mean_ftiss -mul 6000 -div 0.91 full_vb_blood_and_tissue_100/CBF
+fslmaths full_vb_blood_and_tissue_100/mean_fblood -div 0.91 full_vb_blood_and_tissue_100/ABV
+
+
 
 
 d_TI=0.6
@@ -45,10 +61,21 @@ fslmaths full_vb_tissue_step2/mean_tautiss -mul 2 -exp -add 1 full_vb_tissue_ste
 fslmaths full_vb_tissue_step2/numerator -div full_vb_tissue_step2/denominator full_vb_tissue_step2/tanh
 fslmaths full_vb_tissue_step2/tanh -add 1 -mul $d_TI -mul 0.5 full_vb_tissue_step2/mean_tautiss_true
 # One step method
-fslmaths full_vb_tissue_all/mean_tautiss -mul 2 -exp -sub 1 full_vb_tissue_all/numerator
-fslmaths full_vb_tissue_all/mean_tautiss -mul 2 -exp -add 1 full_vb_tissue_all/denominator
-fslmaths full_vb_tissue_all/numerator -div full_vb_tissue_all/denominator full_vb_tissue_all/tanh
-fslmaths full_vb_tissue_all/tanh -add 1 -mul $d_TI -mul 0.5 full_vb_tissue_all/mean_tautiss_true
+#fslmaths full_vb_tissue_all/mean_tautiss -mul 2 -exp -sub 1 full_vb_tissue_all/numerator
+#fslmaths full_vb_tissue_all/mean_tautiss -mul 2 -exp -add 1 full_vb_tissue_all/denominator
+#fslmaths full_vb_tissue_all/numerator -div full_vb_tissue_all/denominator full_vb_tissue_all/tanh
+#fslmaths full_vb_tissue_all/tanh -add 1 -mul $d_TI -mul 0.5 full_vb_tissue_all/mean_tautiss_true
 
 
+# All six phases
+# Two step method
+fslmaths full_vb_blood_and_tissue_step2/mean_tautiss -mul 2 -exp -sub 1 full_vb_blood_and_tissue_step2/numerator
+fslmaths full_vb_blood_and_tissue_step2/mean_tautiss -mul 2 -exp -add 1 full_vb_blood_and_tissue_step2/denominator
+fslmaths full_vb_blood_and_tissue_step2/numerator -div full_vb_blood_and_tissue_step2/denominator full_vb_blood_and_tissue_step2/tanh
+fslmaths full_vb_blood_and_tissue_step2/tanh -add 1 -mul $d_TI -mul 0.5 full_vb_blood_and_tissue_step2/mean_tautiss_true
+# One step method
+fslmaths full_vb_blood_and_tissue_100/mean_tautiss -mul 2 -exp -sub 1 full_vb_blood_and_tissue_100/numerator
+fslmaths full_vb_blood_and_tissue_100/mean_tautiss -mul 2 -exp -add 1 full_vb_blood_and_tissue_100/denominator
+fslmaths full_vb_blood_and_tissue_100/numerator -div full_vb_blood_and_tissue_100/denominator full_vb_blood_and_tissue_100/tanh
+fslmaths full_vb_blood_and_tissue_100/tanh -add 1 -mul $d_TI -mul 0.5 full_vb_blood_and_tissue_100/mean_tautiss_true
 
