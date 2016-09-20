@@ -5,7 +5,9 @@
 % Output:
 % Tissue magnetization, D(t) of eq [7]
 
-function tissue_m = calculate_M0_tissue_Hrabe_no_dispersion(t, bolus_time_passed)
+function tissue_m = calculate_M0_tissue_Hrabe_no_dispersion(t, bolus_time_passed, current_bolus_duration)
+
+	% New parameter param_mr_str.bolus_order
 
 	% Load User and MRI parameters
 	load('param_user.mat');
@@ -41,12 +43,12 @@ function tissue_m = calculate_M0_tissue_Hrabe_no_dispersion(t, bolus_time_passed
 			tissue_m(j) = 0;
 		end
 
-		if(t(j) >= current_arrival_time && t(j) < current_arrival_time + param_mr_str.tau_b)
+		if(t(j) >= current_arrival_time && t(j) < current_arrival_time + current_bolus_duration)
 			tissue_m(j) = F / R * (exp(R * (t(j) - bolus_time_passed)) - exp(R * param_user_str.tau_t));
 		end
 
-		if(t(j) >= current_arrival_time + param_mr_str.tau_b)
-			tissue_m(j) = F / R * (exp(R * (param_user_str.tau_t + param_mr_str.tau_b)) - exp(R * param_user_str.tau_t));
+		if(t(j) >= current_arrival_time + current_bolus_duration)
+			tissue_m(j) = F / R * (exp(R * (param_user_str.tau_t + current_bolus_duration)) - exp(R * param_user_str.tau_t));
 
 		end
 	end

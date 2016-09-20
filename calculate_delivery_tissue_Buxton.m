@@ -20,8 +20,9 @@ function delivery_tissue_Buxton = calculate_delivery_tissue_Buxton(t)
 
 		%current_arrival_time = param_user_str.tau_t + bolus_arrived * (param_mr_str.tau_b + param_mr_str.delta_bolus);
 
-		bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
-		bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+		%bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
+		%bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+		bolus_time_passed = bolus_arrived * param_user_str.delta_ti;
 
 		% calculate Buxton's delivery c(t)
 		delivery_Buxton = calculate_delivery_Buxton(t, bolus_time_passed);

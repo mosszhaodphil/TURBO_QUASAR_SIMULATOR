@@ -29,14 +29,20 @@ function delta_M_tissue = calculate_delta_M_tissue(t)
 
 	% Check dispersion
 
+	% New parameter param_mr_str.bolus_order
+
 	% No dispersion
 	if(param_user_str.dispersion_type == 1)
 		while(bolus_arrived < param_mr_str.n_bolus)
 
 			%bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
-			bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+			%bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+			bolus_time_passed = bolus_arrived * param_user_str.delta_ti;
 
-			delta_M_tissue = delta_M_tissue + calculate_M0_tissue_Hrabe_no_dispersion(t, bolus_time_passed);
+			% Get the current bolus duration (if current bolus is skipped, then the bolus duration is zero, otherwise it is one)
+			current_bolus_duration = param_mr_str.tau_b * param_mr_str.bolus_order(bolus_arrived + 1);
+
+			delta_M_tissue = delta_M_tissue + calculate_M0_tissue_Hrabe_no_dispersion(t, bolus_time_passed, current_bolus_duration);
 
 			bolus_arrived = bolus_arrived + 1;
 		end

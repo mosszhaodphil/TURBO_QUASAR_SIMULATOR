@@ -20,7 +20,7 @@ function delta_M_blood = calculate_delta_M_blood(t)
 	input_function = zeros(length(t), 1); % c(t) of (MACQ)
 	aif_dispersion = zeros(length(t), 1); % a(t) of (MACQ)
 
-	bolus_arrived = 0;
+	bolus_arrived = 1;
 
 	% Check dispersion
 
@@ -30,9 +30,13 @@ function delta_M_blood = calculate_delta_M_blood(t)
 		while(bolus_arrived < param_mr_str.n_bolus)
 
 			%bolus_time_passed = bolus_arrived * (param_mr_str.tau_b + param_user_str.delta_bolus);
-			bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+			%bolus_time_passed = bolus_arrived * param_user_str.delta_bolus;
+			bolus_time_passed = bolus_arrived * param_user_str.delta_ti;
 
-			delta_M_blood = delta_M_blood + calculate_delivery_vessel_Buxton_no_dispersion(t, bolus_time_passed); % calculate ASL signal
+			% Get the current bolus duration (if current bolus is skipped, then the bolus duration is zero, otherwise it is one)
+			current_bolus_duration = param_mr_str.tau_b * param_mr_str.bolus_order(bolus_arrived + 1);
+
+			delta_M_blood = delta_M_blood + calculate_delivery_vessel_Buxton_no_dispersion(t, bolus_time_passed, current_bolus_duration); % calculate ASL signal
 
 			bolus_arrived = bolus_arrived + 1;
 		end
